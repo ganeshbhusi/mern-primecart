@@ -25,6 +25,17 @@ interface UserProductStore {
   getCartProductsPrice: () => number;
   increaseCartProductQuantity: (id: string) => void;
   decreaseCartProductQuantity: (id: string, fullClean?: boolean) => void;
+  clearCart: () => void;
+  createOrderPayment: ({ price }: { price: number }) => Promise<{
+    success: boolean;
+    data: any;
+    message?: string;
+  }>;
+  createOrderSuccess: ({ data }: { data: any }) => Promise<{
+    success: boolean;
+    message: string;
+    data: any;
+  }>;
 }
 
 export const useProductStore: UseBoundStore<StoreApi<UserProductStore>> =
@@ -139,6 +150,27 @@ export const useProductStore: UseBoundStore<StoreApi<UserProductStore>> =
             }
             set({ cartProducts: [...cartData] });
           }
+        },
+        clearCart: () => {
+          set({ cartProducts: [] });
+        },
+        createOrderPayment: async (product: { price: number }) => {
+          if (!product.price) {
+            return { success: false, message: "Price is missing", data: {} };
+          }
+          const res = await axios.post(`/api/products/payment`, {
+            price: product.price,
+          });
+          if (!res.data.success) {
+            return { success: false, message: "Error", data: {} };
+          }
+          return res.data;
+        },
+        createOrderSuccess: async (data) => {
+          const res = await axios.post(`/api/products/payment/success`, {
+            data,
+          });
+          return res.data;
         },
       }),
       {

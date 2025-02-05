@@ -58,7 +58,7 @@ const ProductCard = ({ product, onClickDelete }: ProductCardProps) => {
           <CardBody>
             <CardHeader>{product.name}</CardHeader>
             <CardDescription p={0} m={0}>
-              ${product.price} - Qty: {product.quantity}
+              ₹ {product.price} - Qty: {product.quantity}
             </CardDescription>
           </CardBody>
           <CardFooter

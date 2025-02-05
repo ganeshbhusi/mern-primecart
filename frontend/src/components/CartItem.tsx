@@ -25,7 +25,7 @@ const CartItem = (props: CartItemProps) => {
       <Flex direction="row" justifyContent={"space-between"} p={1}>
         <Box flex={"1"}>
           <Text>{product.name}</Text>
-          <Text textStyle={"xs"}>Price: $ {product.price}</Text>
+          <Text textStyle={"xs"}>Price: ₹ {product.price}</Text>
         </Box>
         <Button
           variant={"plain"}
@@ -40,7 +40,7 @@ const CartItem = (props: CartItemProps) => {
         alignItems={"center"}
         p={1}
       >
-        <Text>Total: $ {+product.price * product.count}</Text>
+        <Text>Total: ₹ {+product.price * product.count}</Text>
 
         <Box float={"right"}>
           <Button

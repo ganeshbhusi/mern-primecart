@@ -1,8 +1,10 @@
 import express from "express";
 import {
+  createOrder,
   createProduct,
   deleteProduct,
   getProducts,
+  orderSuccess,
   updateProduct,
 } from "../controllers/products.controller.js";
 
@@ -14,5 +16,7 @@ router.post("/", createProduct);
 // patch for one
 router.put("/:id", updateProduct);
 router.delete("/:id", deleteProduct);
+router.post("/payment", createOrder);
+router.post("/payment/success", orderSuccess);
 
 export default router;
