@@ -68,11 +68,13 @@ export const deleteProduct = async (req, res) => {
 };
 
 export const createOrder = async (req, res) => {
-  console.log("@gb - create order: ", req.body);
   try {
     const instance = new Razorpay({
-      key_id: "rzp_test_WhDZN6iBSjUj3H",
-      key_secret: "Ovr854ZyqVJMYrM7Bcmh6iW9",
+      // key_id: "rzp_test_WhDZN6iBSjUj3H",
+      // key_secret: "Ovr854ZyqVJMYrM7Bcmh6iW9",
+
+      key_id: process.env.RAZORPAY_KEY_ID,
+      key_secret: process.env.RAZORPAY_KEY_SECRET,
     });
 
     const options = {
@@ -90,13 +92,11 @@ export const createOrder = async (req, res) => {
         .send({ success: false, message: "Some error occured" });
 
     // res.json(order);
-    res
-      .status(201)
-      .send({
-        success: true,
-        data: order,
-        message: "Order created successfully",
-      });
+    res.status(201).send({
+      success: true,
+      data: order,
+      message: "Order created successfully",
+    });
   } catch (error) {
     console.log("create order error: ", error);
     res.status(500).send(error);
