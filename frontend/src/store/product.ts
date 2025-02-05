@@ -44,7 +44,7 @@ export const useProductStore: UseBoundStore<StoreApi<UserProductStore>> =
       (set, get) => ({
         products: [],
         getProducts: async () => {
-          const res = await axios.get("/api/products");
+          const res = await axios.post("/api/products/getProducts");
           set(() => ({ products: [...res?.data?.data] }));
         },
         setProducts: (products: Product[]) => set({ products }),

@@ -10,7 +10,7 @@ import {
 
 const router = express.Router();
 
-router.get("/", getProducts);
+router.post("/getProducts", getProducts);
 router.post("/", createProduct);
 // put for many & one also
 // patch for one
