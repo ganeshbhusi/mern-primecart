@@ -18,7 +18,7 @@ export interface UserAuthStore {
 
 export const useAuthStore: UseBoundStore<StoreApi<UserAuthStore>> = create(
   persist(
-    (set, get) => ({
+    (set) => ({
       loggedInData: { username: "" },
       isLoggedIn: false,
       login: async ({ username, password }: UserData) => {
