@@ -17,6 +17,7 @@ const productInitialState = {
   name: "",
   price: "",
   quantity: "",
+  imageUrl: "",
 };
 
 const CreateProductPage = () => {
@@ -32,7 +33,9 @@ const CreateProductPage = () => {
       title: message ?? "Product added successfully",
       type: success ? "success" : "error",
     });
-    setProduct({ ...productInitialState });
+    if (success) {
+      setProduct({ ...productInitialState });
+    }
     setIsLoading(false);
   }, [product]);
   return (
@@ -72,6 +75,7 @@ const CreateProductPage = () => {
                 onChange={(evt) =>
                   setProduct({ ...product, name: evt.target.value })
                 }
+                required
               />
               <Text>Price</Text>
               <Input
@@ -83,6 +87,7 @@ const CreateProductPage = () => {
                 onChange={(evt) =>
                   setProduct({ ...product, price: evt.target.value })
                 }
+                required
               />
               <Text>Quantity</Text>
               <Input
@@ -94,6 +99,33 @@ const CreateProductPage = () => {
                 onChange={(evt) =>
                   setProduct({ ...product, quantity: evt.target.value })
                 }
+                required
+              />
+              <Text>
+                Product Image Url{" "}
+                <sup>
+                  (
+                  <a
+                    href={`https://www.google.com/search?q=${
+                      product.name ? product.name : "iphone"
+                    }&udm=2`}
+                    target="_blank"
+                  >
+                    get from google
+                  </a>
+                  )
+                </sup>
+              </Text>
+              <Input
+                name="image url"
+                placeholder="Ex. https://www.google.com/img/product.jpg"
+                type="text"
+                min={1}
+                value={product.imageUrl}
+                onChange={(evt) =>
+                  setProduct({ ...product, imageUrl: evt.target.value })
+                }
+                required
               />
             </Fieldset.Content>
             {isLoading ? (

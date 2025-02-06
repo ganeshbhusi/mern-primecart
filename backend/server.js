@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import express from "express";
 import path from "path";
 import { connectDB } from "./config/db.js";
+import authRoutes from "./routes/auth.route.js";
 import productsRoutes from "./routes/products.route.js";
 
 dotenv.config();
@@ -26,6 +27,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/products", productsRoutes);
+app.use("/api/auth", authRoutes);
 
 app.listen(PORT, () => {
   connectDB();

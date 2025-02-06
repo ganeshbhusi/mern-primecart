@@ -5,6 +5,7 @@ export interface Product {
   _id?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  imageUrl?: string;
 }
 
 export interface CartProduct extends Product {

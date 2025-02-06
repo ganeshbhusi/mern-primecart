@@ -1,7 +1,9 @@
+import { toaster } from "@/components/ui/toaster";
 import { CartProduct, Product } from "@/types/products";
 import axios from "axios";
 import { StoreApi, UseBoundStore, create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
+import { useAuthStore } from "./auth";
 
 interface UserProductStore {
   products: Product[];
@@ -44,11 +46,20 @@ export const useProductStore: UseBoundStore<StoreApi<UserProductStore>> =
       (set, get) => ({
         products: [],
         getProducts: async () => {
+          toaster.create({
+            title: "Loading products...",
+            description: "Please wait...",
+            type: "loading",
+          });
           const res = await axios.post("/api/products/getProducts");
+          toaster.dismiss();
           set(() => ({ products: [...res?.data?.data] }));
         },
         setProducts: (products: Product[]) => set({ products }),
         createProduct: async (product: Product) => {
+          if (!useAuthStore.getState().isLoggedIn) {
+            return { success: false, message: "You are not logged in" };
+          }
           if (!product.name || !product.price || !product.quantity) {
             return { success: false, message: "All fields are required!" };
           }
@@ -63,6 +74,9 @@ export const useProductStore: UseBoundStore<StoreApi<UserProductStore>> =
           return { success: true, message: "Product added succesfully!" };
         },
         deleteProduct: async (product: Product) => {
+          if (!useAuthStore.getState().isLoggedIn) {
+            return { success: false, message: "You are not logged in" };
+          }
           if (!product._id) {
             return { success: false, message: "ID is missing" };
           }
@@ -76,6 +90,9 @@ export const useProductStore: UseBoundStore<StoreApi<UserProductStore>> =
           return { success: true, message: "Product deleted succesfully!" };
         },
         updateProduct: async (product: Product) => {
+          if (!useAuthStore.getState().isLoggedIn) {
+            return { success: false, message: "You are not logged in" };
+          }
           const res = await axios.put(
             `/api/products/${product._id}`,
             { price: product.price, quantity: product.quantity },

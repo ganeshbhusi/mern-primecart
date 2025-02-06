@@ -8,6 +8,8 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
+  Image,
+  Text,
 } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { BsCartCheckFill, BsCartPlusFill } from "react-icons/bs";
@@ -55,17 +57,30 @@ const ProductCard = ({ product, onClickDelete }: ProductCardProps) => {
         }}
       >
         <Card.Root>
-          <CardBody>
-            <CardHeader>{product.name}</CardHeader>
+          <CardBody paddingBottom={0} marginBottom={"4"}>
+            <CardHeader
+              float={"left"}
+              padding={0}
+              margin={0}
+              marginBottom={"2"}
+            >
+              {product.name}
+            </CardHeader>
             <CardDescription p={0} m={0}>
-              ₹ {product.price} - Qty: {product.quantity}
+              {!!product.imageUrl && (
+                <Image marginBottom={"2"} src={product.imageUrl} />
+              )}
+              <Text>Price: ₹ {product.price}</Text>
+              <Text>Quantity left: {product.quantity}</Text>
             </CardDescription>
           </CardBody>
           <CardFooter
+            backgroundColor={"Highlight"}
             flexDir={"row"}
             justifyContent={"space-around"}
-            marginTop={2}
             paddingBottom={2}
+            paddingTop={2}
+            justifySelf={"center"}
           >
             <Button
               size={"2xs"}

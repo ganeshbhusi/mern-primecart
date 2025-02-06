@@ -39,6 +39,7 @@ const ProductUpdateModal = ({
     <Modal isOpen={isVisible} onClose={onClose}>
       <ModalOverlay blur={true} backdropBlur={true}>
         <ModalContent
+          minHeight={"40vh"}
           style={{
             backgroundColor: "coral",
             width: 500,
@@ -91,6 +92,10 @@ const ProductUpdateModal = ({
               onClick={handleClickUpdate}
               variant={"solid"}
               bgColor={"green.600"}
+              disabled={
+                updatingProduct.quantity === product.quantity &&
+                updatingProduct.price === product.price
+              }
             >
               Update
             </Button>

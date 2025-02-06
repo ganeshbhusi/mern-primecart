@@ -14,7 +14,12 @@ export const getProducts = async (req, res) => {
 
 export const createProduct = async (req, res) => {
   const product = req.body; // being sent by user
-  if (!product?.name || !product?.price || !product?.quantity) {
+  if (
+    !product?.name ||
+    !product?.price ||
+    !product?.quantity ||
+    !product?.imageUrl
+  ) {
     return res
       .status(400)
       .json({ status: false, message: "All fields are required!" });

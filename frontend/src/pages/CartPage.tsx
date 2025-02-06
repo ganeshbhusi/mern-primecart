@@ -1,5 +1,6 @@
 import CartItem from "@/components/CartItem";
 import { toaster } from "@/components/ui/toaster";
+import { useAuthStore } from "@/store/auth";
 import { useProductStore } from "@/store/product";
 import { loadScript } from "@/utils/razorpay";
 import {
@@ -23,7 +24,16 @@ const CartPage = () => {
     createOrderSuccess,
     clearCart,
   } = useProductStore();
+  const { isLoggedIn } = useAuthStore();
   const processOrder = async () => {
+    if (!isLoggedIn) {
+      toaster.create({
+        title: "Try again!",
+        description: "You are not logged in",
+        type: "error",
+      });
+      return;
+    }
     const res = await loadScript(
       "https://checkout.razorpay.com/v1/checkout.js"
     );
