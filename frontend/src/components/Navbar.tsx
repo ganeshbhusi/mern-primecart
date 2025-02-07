@@ -42,7 +42,6 @@ const NavBar = () => {
           bgGradient={"linear(to-r, cyan.400, blue.500)"}
         >
           <Link to={"/"}>PrimeCart 🛒</Link>
-          <sub>Test 1</sub>
         </Text>
         <HStack wordSpacing={2} alignItems={"center"}>
           <Link to="/createProduct">
