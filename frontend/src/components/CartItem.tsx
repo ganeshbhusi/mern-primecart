@@ -1,6 +1,6 @@
 import { useProductStore } from "@/store/product";
 import { CartProduct } from "@/types/products";
-import { Box, Button, Container, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Container, Flex, Image, Text } from "@chakra-ui/react";
 import { BsTrash } from "react-icons/bs";
 import { CiSquareMinus, CiSquarePlus } from "react-icons/ci";
 
@@ -18,12 +18,13 @@ const CartItem = (props: CartItemProps) => {
       borderBottomWidth={1}
       boxShadow={"2xl"}
       boxShadowColor={"white"}
-      bgColor={"coral"}
+      bgColor={"whiteAlpha.900"}
       borderRadius={4}
       p={4}
     >
       <Flex direction="row" justifyContent={"space-between"} p={1}>
-        <Box flex={"1"}>
+        <Image src={product.imageUrl} width={"10"} />
+        <Box flex={"1"} marginLeft={"2"}>
           <Text>{product.name}</Text>
           <Text textStyle={"xs"}>Price: ₹ {product.price}</Text>
         </Box>

@@ -58,7 +58,7 @@ const CreateProductPage = () => {
     >
       <Card.Root
         marginTop={12}
-        w={{ base: "-moz-fit-content", sm: "1/2", md: "1/2", lg: "1/3" }}
+        w={{ base: "full", sm: "1/2", md: "1/2", lg: "1/3" }}
       >
         <CardBody>
           <Fieldset.Root size="lg" maxW="md" p={"8"}>

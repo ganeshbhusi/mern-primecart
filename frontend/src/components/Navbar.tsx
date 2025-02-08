@@ -12,7 +12,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const NavBar = () => {
   const { cartProducts, getCartProductsCount } = useProductStore();
-  const { isLoggedIn, clearLoginData } = useAuthStore();
+  const { isLoggedIn, clearLoginData, loggedInData } = useAuthStore();
   const navigate = useNavigate();
   const handleLogout = () => {
     if (isLoggedIn) {
@@ -44,6 +44,11 @@ const NavBar = () => {
           <Link to={"/"}>PrimeCart 🛒</Link>
         </Text>
         <HStack wordSpacing={2} alignItems={"center"}>
+          {isLoggedIn && (
+            <Text textDecor={"underline"} fontStyle={"italic"}>
+              {loggedInData.username}
+            </Text>
+          )}
           <Link to="/createProduct">
             <Button>
               <CiSquarePlus fontSize={20} />

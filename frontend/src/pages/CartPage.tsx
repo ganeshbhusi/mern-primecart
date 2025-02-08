@@ -10,6 +10,7 @@ import {
   Center,
   Container,
   Flex,
+  Input,
   Link,
   Text,
 } from "@chakra-ui/react";
@@ -103,7 +104,9 @@ const CartPage = () => {
     paymentObject.open();
   };
   return (
-    <Container>
+    <Container
+      w={{ base: "full", md: "full", sm: "full", lg: "2/3", xl: "1/2" }}
+    >
       <Center flexDir={"column"}>
         {cartProducts.length === 0 ? (
           <Alert.Root w={"1/2"} mt={"20"}>
@@ -133,23 +136,40 @@ const CartPage = () => {
               animationDuration: "120ms",
             }}
           >
-            <Flex
-              gap={"1"}
-              direction={"column"}
-              w={"1/2"}
-              mt={"4"}
-              borderRadius={4}
-            >
+            <Flex gap={"1"} direction={"column"} mt={"4"} borderRadius={4}>
               {Array.isArray(cartProducts) &&
                 cartProducts.map((item) => (
                   <CartItem key={item._id} product={item} />
                 ))}
             </Flex>
             <Flex
-              mt={8}
+              flexDir={"row"}
+              marginTop={4}
+              marginBottom={4}
+              width={{
+                base: "full",
+                md: "full",
+                sm: "full",
+                lg: "2/3",
+                xl: "1/2",
+              }}
+            >
+              <Input w={"2/3"} placeholder="Promocode" />
+              <Button marginLeft={"4"} variant={"subtle"}>
+                Apply
+              </Button>
+            </Flex>
+            <Flex
+              mt={4}
               flexDirection={"row"}
               justifyContent={"space-between"}
-              style={{ width: "50%" }}
+              width={{
+                base: "full",
+                md: "full",
+                sm: "full",
+                lg: "2/3",
+                xl: "1/2",
+              }}
               alignItems={"flex-end"}
             >
               <Box>
@@ -157,7 +177,9 @@ const CartPage = () => {
                 <Text>Items: {getCartProductsCount()}</Text>
                 <Text>Items total price: ₹{getCartProductsPrice()}</Text>
               </Box>
-              <Button onClick={processOrder}>Checkout</Button>
+              <Button onClick={processOrder} variant={"solid"}>
+                Checkout
+              </Button>
             </Flex>
           </Box>
         )}

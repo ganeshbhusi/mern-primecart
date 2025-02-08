@@ -10,7 +10,7 @@ import {
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 const HomePage = () => {
   const { products, getProducts, deleteProduct } = useProductStore();
@@ -39,13 +39,32 @@ const HomePage = () => {
     }
   }, []);
 
+  const filteredProducts = useMemo(() => {
+    return products.filter((product) =>
+      product.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+  }, [searchText, products]);
+
   return (
-    <Container p={"4"} maxW={"xl"} py={12}>
-      {!products?.length && (
+    <Container p={"4"} maxW={"breakpoint-md"} py={4}>
+      <Input
+        marginBottom={"2"}
+        bgColor={"white"}
+        value={searchText}
+        placeholder="Start searching..."
+        onChange={(evt) => setSearchText(evt.target.value)}
+        _hover={{ borderWidth: 0 }}
+        _active={{ borderWidth: 0 }}
+      />
+      {!filteredProducts?.length && (
         <Alert.Root w={"full"} mt={"20"}>
           <Alert.Indicator />
           <Alert.Content>
-            <Alert.Title>No products in the store yet</Alert.Title>
+            <Alert.Title>
+              {!!searchText
+                ? "No search items found"
+                : "No products in the store yet"}
+            </Alert.Title>
             <Alert.Description>
               <Text>
                 Add products to the store by{" "}
@@ -61,18 +80,9 @@ const HomePage = () => {
           </Alert.Content>
         </Alert.Root>
       )}
-      <Input
-        marginBottom={"2"}
-        bgColor={"white"}
-        value={searchText}
-        placeholder="Start searching..."
-        onChange={(evt) => setSearchText(evt.target.value)}
-        _hover={{ borderWidth: 0 }}
-        _active={{ borderWidth: 0 }}
-      />
       <SimpleGrid columns={{ base: 2, md: 2, lg: 3, sm: 2 }} flex={1} gap={4}>
-        {Array.isArray(products) &&
-          products?.map((item: Product) => (
+        {Array.isArray(filteredProducts) &&
+          filteredProducts?.map((item: Product) => (
             <ProductCard
               key={item._id}
               product={item}

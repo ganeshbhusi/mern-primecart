@@ -4,6 +4,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
 import { Toaster } from "./components/ui/toaster.tsx";
+import "./main.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

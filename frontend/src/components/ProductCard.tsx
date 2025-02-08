@@ -106,12 +106,7 @@ const ProductCard = ({ product, onClickDelete }: ProductCardProps) => {
               </Box>
             )}
             {!isProductAddedToCart ? (
-              <Button
-                size={"2xs"}
-                bgColor={"fg.muted"}
-                onClick={onAddToCart}
-                alignSelf={"flex-end"}
-              >
+              <Button size={"2xs"} bgColor={"fg.muted"} onClick={onAddToCart}>
                 Add to Cart
                 <BsCartPlusFill />
               </Button>
@@ -123,7 +118,7 @@ const ProductCard = ({ product, onClickDelete }: ProductCardProps) => {
                 cursor={"default"}
               >
                 Added to Cart
-                <BsCartCheckFill />
+                <BsCartCheckFill color="white" />
               </Button>
             )}
           </CardFooter>
