@@ -41,23 +41,32 @@ export const useAuthStore: UseBoundStore<StoreApi<UserAuthStore>> = create(
       },
 
       register: async ({ username, password }: UserData) => {
-        toaster.create({
-          title: "Registering...",
-          description: "Please wait...",
-          type: "loading",
-        });
-        const res = await axios.post("/api/auth/register", {
-          username,
-          password,
-        });
-        toaster.dismiss();
-        if (res.data.status) {
+        try {
+          toaster.create({
+            title: "Registering...",
+            description: "Please wait...",
+            type: "loading",
+          });
+          const res = await axios.post("/api/auth/register", {
+            username,
+            password,
+          });
+          if (res.data.status) {
+            return {
+              success: res.data.status,
+              message: "Registraion successful",
+            };
+          } else {
+            return { success: false, message: "Registration error" };
+          }
+        } catch (err: any) {
+          console.error(err);
           return {
-            success: res.data.status,
-            message: "Registraion successful",
+            success: false,
+            message: err.data.message ?? "Registration error",
           };
-        } else {
-          return { success: false, message: "Registration error" };
+        } finally {
+          toaster.dismiss();
         }
       },
       clearLoginData: () =>

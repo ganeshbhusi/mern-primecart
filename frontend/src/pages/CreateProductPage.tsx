@@ -1,4 +1,5 @@
 import { toaster } from "@/components/ui/toaster";
+import { useAuthStore } from "@/store/auth";
 import { useProductStore } from "@/store/product";
 import {
   Button,
@@ -18,11 +19,16 @@ const productInitialState = {
   price: "",
   quantity: "",
   imageUrl: "",
+  creatorId: "",
 };
 
 const CreateProductPage = () => {
+  const { loggedInData } = useAuthStore();
   const { createProduct } = useProductStore();
-  const [product, setProduct] = useState(productInitialState);
+  const [product, setProduct] = useState({
+    ...productInitialState,
+    creatorId: loggedInData.username,
+  });
   const [isLoading, setIsLoading] = useState(false);
 
   const handleAddProduct = useCallback(async () => {
@@ -34,7 +40,7 @@ const CreateProductPage = () => {
       type: success ? "success" : "error",
     });
     if (success) {
-      setProduct({ ...productInitialState });
+      setProduct({ ...productInitialState, creatorId: loggedInData.username });
     }
     setIsLoading(false);
   }, [product]);

@@ -2,23 +2,41 @@ import ProductCard from "@/components/ProductCard";
 import { toaster } from "@/components/ui/toaster";
 import { useProductStore } from "@/store/product";
 import { Product } from "@/types/products";
-import { Alert, Container, Link, SimpleGrid, Text } from "@chakra-ui/react";
-import { useCallback, useEffect } from "react";
+import {
+  Alert,
+  Container,
+  Input,
+  Link,
+  SimpleGrid,
+  Text,
+} from "@chakra-ui/react";
+import { useCallback, useEffect, useState } from "react";
 
 const HomePage = () => {
   const { products, getProducts, deleteProduct } = useProductStore();
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     getProducts();
-  }, [getProducts]);
+  }, []);
 
   const handleDeleteProduct = useCallback(async (product: Product) => {
-    const { success, message } = await deleteProduct(product);
-    toaster.create({
-      title: !success ? "Error Deleting!" : "Deleted",
-      description: message ?? "Product deleted succesfully!",
-      type: "error",
-    });
+    if (confirm("Are you sure you want to delete?")) {
+      try {
+        const { success, message } = await deleteProduct(product);
+        toaster.create({
+          title: !success ? "Error Deleting!" : "Deleted",
+          description: message ?? "Product deleted succesfully!",
+          type: "error",
+        });
+      } catch (err: any) {
+        toaster.create({
+          title: "Try again!",
+          description: err?.data?.message ?? "Failed to delete product",
+          type: "error",
+        });
+      }
+    }
   }, []);
 
   return (
@@ -43,13 +61,16 @@ const HomePage = () => {
           </Alert.Content>
         </Alert.Root>
       )}
-      <SimpleGrid
-        columns={{ base: 1, md: 2, lg: 3, sm: 1 }}
-        flex={1}
-        gap={4}
-        h={"full"}
-        w={"full"}
-      >
+      <Input
+        marginBottom={"2"}
+        bgColor={"white"}
+        value={searchText}
+        placeholder="Start searching..."
+        onChange={(evt) => setSearchText(evt.target.value)}
+        _hover={{ borderWidth: 0 }}
+        _active={{ borderWidth: 0 }}
+      />
+      <SimpleGrid columns={{ base: 2, md: 2, lg: 3, sm: 2 }} flex={1} gap={4}>
         {Array.isArray(products) &&
           products?.map((item: Product) => (
             <ProductCard

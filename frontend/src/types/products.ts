@@ -6,6 +6,7 @@ export interface Product {
   createdAt?: Date;
   updatedAt?: Date;
   imageUrl?: string;
+  creatorId: string;
 }
 
 export interface CartProduct extends Product {

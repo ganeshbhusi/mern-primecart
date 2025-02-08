@@ -1,3 +1,4 @@
+import { useAuthStore } from "@/store/auth";
 import { useProductStore } from "@/store/product";
 import { Product } from "@/types/products";
 import {
@@ -22,6 +23,7 @@ interface ProductCardProps {
   onClickDelete: (product: Product) => void;
 }
 const ProductCard = ({ product, onClickDelete }: ProductCardProps) => {
+  const { loggedInData } = useAuthStore();
   const [isVisible, setIsVisible] = useState(false);
   const { updateProduct, addToCart, isProductInCart } = useProductStore();
   const isProductAddedToCart = isProductInCart(product._id!);
@@ -55,6 +57,9 @@ const ProductCard = ({ product, onClickDelete }: ProductCardProps) => {
           animationName: "fade-out, scale-out",
           animationDuration: "120ms",
         }}
+        display="flex"
+        justifyContent="center"
+        minH="150px"
       >
         <Card.Root>
           <CardBody paddingBottom={0} marginBottom={"4"}>
@@ -76,32 +81,48 @@ const ProductCard = ({ product, onClickDelete }: ProductCardProps) => {
           </CardBody>
           <CardFooter
             backgroundColor={"Highlight"}
-            flexDir={"row"}
-            justifyContent={"space-around"}
+            flexDir={"column"}
             paddingBottom={2}
             paddingTop={2}
             justifySelf={"center"}
           >
-            <Button
-              size={"2xs"}
-              bgColor={"fg.info"}
-              onClick={() => setIsVisible(true)}
-            >
-              <CiEdit />
-            </Button>
-            <Button
-              size={"2xs"}
-              bgColor={"fg.error"}
-              onClick={() => onClickDelete(product)}
-            >
-              <CiTrash />
-            </Button>
+            {product.creatorId === loggedInData.username && (
+              <Box flexDir={"row"} justifyContent={"space-between"}>
+                <Button
+                  size={"2xs"}
+                  bgColor={"fg.info"}
+                  onClick={() => setIsVisible(true)}
+                >
+                  <CiEdit />
+                </Button>
+                <Button
+                  size={"2xs"}
+                  bgColor={"fg.error"}
+                  onClick={() => onClickDelete(product)}
+                  marginLeft={"2"}
+                >
+                  <CiTrash />
+                </Button>
+              </Box>
+            )}
             {!isProductAddedToCart ? (
-              <Button size={"2xs"} bgColor={"fg.muted"} onClick={onAddToCart}>
+              <Button
+                size={"2xs"}
+                bgColor={"fg.muted"}
+                onClick={onAddToCart}
+                alignSelf={"flex-end"}
+              >
+                Add to Cart
                 <BsCartPlusFill />
               </Button>
             ) : (
-              <Button size={"2xs"} bgColor={"fg.error"} onClick={onAddToCart}>
+              <Button
+                size={"2xs"}
+                bgColor={"burlywood"}
+                color={"#1c1c1c"}
+                cursor={"default"}
+              >
+                Added to Cart
                 <BsCartCheckFill />
               </Button>
             )}

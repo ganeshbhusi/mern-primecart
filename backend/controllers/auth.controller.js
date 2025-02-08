@@ -26,8 +26,9 @@ export const register = async (req, res) => {
   const { username, password } = req.body;
   try {
     const list = await User.findOne({ username });
-    if (!list.username) {
+    if (!!list.username) {
       res.status(500).send({ status: false, message: "Username exists" });
+      return;
     }
     const user = new User({ username, password });
     await user.save();

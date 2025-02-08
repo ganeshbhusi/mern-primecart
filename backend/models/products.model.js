@@ -19,6 +19,10 @@ const productsSchema = new mongoose.Schema(
       default:
         "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg",
     },
+    creatorId: {
+      type: mongoose.Schema.Types.String,
+      default: "admin",
+    },
   },
   {
     timestamps: true,
