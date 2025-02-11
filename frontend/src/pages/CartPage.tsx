@@ -14,7 +14,6 @@ import {
   Link,
   Text,
 } from "@chakra-ui/react";
-// import { Link } from "react-router-dom";
 
 const CartPage = () => {
   const {
@@ -26,6 +25,12 @@ const CartPage = () => {
     clearCart,
   } = useProductStore();
   const { isLoggedIn } = useAuthStore();
+
+  const handleAskAddress = () => {
+    if (isLoggedIn) {
+    }
+  };
+
   const processOrder = async () => {
     if (!isLoggedIn) {
       toaster.create({
